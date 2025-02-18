@@ -39,7 +39,7 @@ class _GameHistoryViewState extends State<GameHistoryView> {
               // Date
               Text(
                 DateFormat(
-                  'd MMMM yyyy',
+                  'd MMMM yyyy HH:mm',
                 ).format(game.startTime), // "4 February 2025"
                 style: TextStyle(fontSize: 16),
               ),

@@ -41,7 +41,7 @@ class Game {
     return StatisticTotal.of(secondTeamStatistic);
   }
 
-  void addStatisticItem(String playerId, StatisticsType type) {
+  StatisticItem addStatisticItem(String playerId, StatisticsType type) {
     final isFirstTeamPlayer = firstTeam.players.any((p) => p.id == playerId);
     final item = StatisticItem(
       type: type,
@@ -56,6 +56,29 @@ class Game {
       firstTeamStatistic.add(item);
     } else {
       secondTeamStatistic.add(item);
+    }
+    return item;
+  }
+
+  void removeStatisticItem(StatisticItem item) {
+    final isFirstTeamPlayer = firstTeam.players.any(
+      (p) => p.id == item.playerId,
+    );
+
+    playerStatistics[item.playerId]!.removeWhere(
+      (existing) =>
+          existing.type == item.type && existing.timestamp == item.timestamp,
+    );
+    if (isFirstTeamPlayer) {
+      firstTeamStatistic.removeWhere(
+        (existing) =>
+            existing.type == item.type && existing.timestamp == item.timestamp,
+      );
+    } else {
+      secondTeamStatistic.removeWhere(
+        (existing) =>
+            existing.type == item.type && existing.timestamp == item.timestamp,
+      );
     }
   }
 

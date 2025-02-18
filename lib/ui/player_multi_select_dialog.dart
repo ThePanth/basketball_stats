@@ -5,10 +5,14 @@ class PlayerMultiSelectDialog extends StatefulWidget {
   final List<PlayerModel> availablePlayers;
   final List<PlayerModel> selectedPlayers;
 
-  PlayerMultiSelectDialog({required this.availablePlayers, required this.selectedPlayers});
+  PlayerMultiSelectDialog({
+    required this.availablePlayers,
+    required this.selectedPlayers,
+  });
 
   @override
-  _PlayerMultiSelectDialogState createState() => _PlayerMultiSelectDialogState();
+  _PlayerMultiSelectDialogState createState() =>
+      _PlayerMultiSelectDialogState();
 }
 
 class _PlayerMultiSelectDialogState extends State<PlayerMultiSelectDialog> {
@@ -36,37 +40,38 @@ class _PlayerMultiSelectDialogState extends State<PlayerMultiSelectDialog> {
       title: Text("Select Players (4-5)"),
       content: SingleChildScrollView(
         child: Column(
-          children: widget.availablePlayers.map((player) {
-            bool isSelected = _tempSelectedPlayers.contains(player);
-            return ListTile(
-              title: Text("${player.firstName} ${player.lastName}"),
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Checkbox(
-                    value: isSelected,
-                    onChanged: (bool? value) {
-                      _onPlayerTapped(player);
-                    },
+          children:
+              widget.availablePlayers.map((player) {
+                bool isSelected = _tempSelectedPlayers.contains(player);
+                return ListTile(
+                  title: Text("${player.firstName} ${player.lastName}"),
+                  leading: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Checkbox(
+                        value: isSelected,
+                        onChanged: (bool? value) {
+                          _onPlayerTapped(player);
+                        },
+                      ),
+                      CircleAvatar(backgroundColor: Color(player.badgeColor)),
+                    ],
                   ),
-                  CircleAvatar(
-                    backgroundColor: Color(player.badgeColor)
-                  ),
-                ],
-              ),
-              onTap: () => _onPlayerTapped(player),
-            );
-          }).toList(),
+                  onTap: () => _onPlayerTapped(player),
+                );
+              }).toList(),
         ),
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, widget.selectedPlayers), // Cancel
+          onPressed:
+              () => Navigator.pop(context, widget.selectedPlayers), // Cancel
           child: Text("Cancel"),
         ),
         TextButton(
           onPressed: () {
-            if (_tempSelectedPlayers.length >= 4 && _tempSelectedPlayers.length <= 5) {
+            if (_tempSelectedPlayers.length >= 4 &&
+                _tempSelectedPlayers.length <= 5) {
               Navigator.pop(context, _tempSelectedPlayers);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
