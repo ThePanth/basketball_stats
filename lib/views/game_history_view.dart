@@ -1,5 +1,6 @@
 import 'package:basketball_stats/entities/game.dart';
 import 'package:basketball_stats/services/game_service.dart';
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:basketball_stats/views/game_statistics_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +30,7 @@ class _GameHistoryViewState extends State<GameHistoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Games History')),
+      appBar: AppBar(title: Text(tr('Games History'))),
       body: ListView.builder(
         itemCount: _games.length,
         itemBuilder: (context, index) {
@@ -59,6 +60,10 @@ class _GameHistoryViewState extends State<GameHistoryView> {
                 icon: Icon(Icons.bar_chart, size: 28, color: Colors.blue),
                 onPressed: () => _lookGameStatistics(game),
               ),
+              IconButton(
+                icon: Icon(Icons.delete, size: 28, color: Colors.blue),
+                onPressed: () => _deleteGameConfirmation(game),
+              ),
             ],
           );
         },
@@ -73,5 +78,42 @@ class _GameHistoryViewState extends State<GameHistoryView> {
         builder: (context) => GameStatisticsScreen(gameId: g.id),
       ),
     );
+  }
+
+  void _deleteGameConfirmation(Game g) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            '${tr('Delete the game for')} ${DateFormat('d MMMM yyyy HH:mm').format(g.startTime)}?',
+          ),
+          actions: [
+            // Cancel Button
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(tr('Cancel')),
+            ),
+            // Add Player Button
+            ElevatedButton(
+              onPressed: () {
+                _deleteGame(g);
+                Navigator.pop(context);
+              },
+              child: Text(tr('Delete')),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteGame(Game g) {
+    GameService.deleteGame(g.id);
+    setState(() {
+      _games.removeWhere((game) => g.id == game.id);
+    });
   }
 }

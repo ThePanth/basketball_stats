@@ -29,6 +29,7 @@ class GameService {
   }
 
   static Future<void> deleteGame(String id) async {
+    await PlayerGameStatisticRepository.deletePlayerGameStatisticsForGame(id);
     await GameRepository.deleteGame(id);
   }
 

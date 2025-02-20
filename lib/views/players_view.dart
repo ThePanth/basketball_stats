@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:basketball_stats/models/player_model.dart';
 import 'package:basketball_stats/repositories/player_repository.dart';
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:uuid/uuid.dart';
@@ -13,9 +14,11 @@ class PlayersView extends StatefulWidget {
 
 class _PlayersViewState extends State<PlayersView> {
   List<PlayerModel> _players = [];
-  Color _selectedColor = Colors.white;  // Default color
-  final TextEditingController _firstNameEditingController = new TextEditingController();
-  final TextEditingController _lastNameEditingController = new TextEditingController();
+  Color _selectedColor = Colors.white; // Default color
+  final TextEditingController _firstNameEditingController =
+      new TextEditingController();
+  final TextEditingController _lastNameEditingController =
+      new TextEditingController();
 
   @override
   void initState() {
@@ -60,21 +63,17 @@ class _PlayersViewState extends State<PlayersView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add New Player'),
+          title: Text(tr('Add New Player')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _firstNameEditingController,
-                decoration: InputDecoration(
-                  labelText: 'First Name',
-                ),
+                decoration: InputDecoration(labelText: tr('First Name')),
               ),
               TextField(
                 controller: _lastNameEditingController,
-                decoration: InputDecoration(
-                  labelText: 'Last Name',
-                ),
+                decoration: InputDecoration(labelText: tr('Last Name')),
               ),
               SizedBox(height: 16),
               // Color Picker (for now, just a simple dropdown)
@@ -96,7 +95,7 @@ class _PlayersViewState extends State<PlayersView> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(tr('Cancel')),
             ),
             // Add Player Button
             ElevatedButton(
@@ -106,7 +105,7 @@ class _PlayersViewState extends State<PlayersView> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('Add Player'),
+              child: Text(tr('Add Player')),
             ),
           ],
         );
@@ -128,15 +127,11 @@ class _PlayersViewState extends State<PlayersView> {
             children: [
               TextField(
                 controller: _firstNameEditingController,
-                decoration: InputDecoration(
-                  labelText: 'First Name',
-                ),
+                decoration: InputDecoration(labelText: 'First Name'),
               ),
               TextField(
                 controller: _lastNameEditingController,
-                decoration: InputDecoration(
-                  labelText: 'Last Name',
-                ),
+                decoration: InputDecoration(labelText: 'Last Name'),
               ),
               SizedBox(height: 16),
               // Color Picker (for now, just a simple dropdown)
@@ -175,15 +170,17 @@ class _PlayersViewState extends State<PlayersView> {
       },
     );
   }
+
   Color getRandomColor() {
     Random random = Random();
     return Color.fromRGBO(
-      random.nextInt(256),  // Red: 0-255
-      random.nextInt(256),  // Green: 0-255
-      random.nextInt(256),  // Blue: 0-255
-      1,  // Alpha: 1 (fully opaque)
+      random.nextInt(256), // Red: 0-255
+      random.nextInt(256), // Green: 0-255
+      random.nextInt(256), // Blue: 0-255
+      1, // Alpha: 1 (fully opaque)
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,20 +191,18 @@ class _PlayersViewState extends State<PlayersView> {
           final player = _players[index];
           return ListTile(
             title: Text("${player.firstName} ${player.lastName}"),
-            leading: CircleAvatar(
-              backgroundColor: Color(player.badgeColor)
-            ),
+            leading: CircleAvatar(backgroundColor: Color(player.badgeColor)),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () => _openEditPlayerDialog(player)
+                  onPressed: () => _openEditPlayerDialog(player),
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () => _deletePlayer(player.id)
-                )
+                  onPressed: () => _deletePlayer(player.id),
+                ),
               ],
             ),
           );

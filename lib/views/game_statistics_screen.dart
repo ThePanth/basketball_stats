@@ -2,6 +2,7 @@ import 'package:basketball_stats/entities/game.dart';
 import 'package:basketball_stats/entities/statistic_item.dart';
 import 'package:basketball_stats/models/statistic_type.dart';
 import 'package:basketball_stats/services/game_service.dart';
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class GameStatisticsScreen extends StatefulWidget {
@@ -151,12 +152,12 @@ class _GameStatisticsScreenState extends State<GameStatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     final dropDownItems = [
-      "All teams",
+      tr("All teams"),
       _game.firstTeam.name,
       _game.secondTeam.name,
     ];
     return Scaffold(
-      appBar: AppBar(title: Text("Game Statistics")),
+      appBar: AppBar(title: Text(tr("Game Statistics"))),
       body: Column(
         children: [
           // Dropdown selector
@@ -221,14 +222,14 @@ class _GameStatisticsScreenState extends State<GameStatisticsScreen> {
 
   String _getColumnTitle(_ColumnType type) {
     return switch (type) {
-      _ColumnType.playerName => "Name",
-      _ColumnType.totalScore => "Points",
-      _ColumnType.twoPointsSuccess => "2P",
-      _ColumnType.twoPointsPercentage => "2P %",
-      _ColumnType.threePointsSuccess => "3P",
-      _ColumnType.threePointsPercentage => "3P %",
-      _ColumnType.rebound => "R",
-      _ColumnType.assist => "A",
+      _ColumnType.playerName => tr("Name"),
+      _ColumnType.totalScore => tr("Points"),
+      _ColumnType.twoPointsSuccess => tr("2P"),
+      _ColumnType.twoPointsPercentage => tr("2P %"),
+      _ColumnType.threePointsSuccess => tr("3P"),
+      _ColumnType.threePointsPercentage => tr("3P %"),
+      _ColumnType.rebound => tr("Rebounds"),
+      _ColumnType.assist => tr("Assists"),
     };
   }
 

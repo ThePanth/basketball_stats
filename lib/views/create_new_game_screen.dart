@@ -5,6 +5,7 @@ import 'package:basketball_stats/repositories/game_repository.dart';
 import 'package:basketball_stats/repositories/player_repository.dart';
 import 'package:basketball_stats/repositories/team_repository.dart';
 import 'package:basketball_stats/ui/player_multi_select_dialog.dart';
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,11 +19,11 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
   List<PlayerModel> _firstTeamPlayers = [];
   List<PlayerModel> _secondTeamPlayers = [];
 
-  TextEditingController _firstTeamNameController = TextEditingController(
-    text: "Team 1",
+  final TextEditingController _firstTeamNameController = TextEditingController(
+    text: tr("Team 1"),
   );
-  TextEditingController _secondTeamNameController = TextEditingController(
-    text: "Team 2",
+  final TextEditingController _secondTeamNameController = TextEditingController(
+    text: tr("Team 2"),
   );
 
   @override
@@ -64,12 +65,25 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
   }
 
   void _createGame() async {
-    if (_firstTeamPlayers.length < 4 || _firstTeamPlayers.length > 5) {
-      _showError("First team must have 4-5 players.");
+    if (_firstTeamPlayers.isEmpty) {
+      _showError(tr("First team must be non empty"));
       return;
     }
-    if (_secondTeamPlayers.length < 4 || _secondTeamPlayers.length > 5) {
-      _showError("Second team must have 4-5 players.");
+    if (_secondTeamPlayers.isEmpty) {
+      _showError("Second team must be non empty");
+      return;
+    }
+    final playersInBothTeams =
+        _firstTeamPlayers
+            .where((ftp) => _secondTeamPlayers.any((stp) => ftp.id == stp.id))
+            .toList();
+    if (playersInBothTeams.isNotEmpty) {
+      _showError(
+        tr(
+          "players_in_both_teams",
+          args: [playersInBothTeams.map((p) => p.firstName).join(", ")],
+        ),
+      );
       return;
     }
 
@@ -110,7 +124,7 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Create New Game")),
+      appBar: AppBar(title: Text(tr("Create New Game", context: context))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -119,7 +133,10 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
             SizedBox(height: 20),
             _buildTeamBox(_secondTeamNameController, _secondTeamPlayers, false),
             SizedBox(height: 30),
-            ElevatedButton(onPressed: _createGame, child: Text("Start Game")),
+            ElevatedButton(
+              onPressed: _createGame,
+              child: Text(tr("Start Game")),
+            ),
           ],
         ),
       ),
@@ -141,7 +158,7 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
             TextField(
               controller: controller,
               decoration: InputDecoration(
-                labelText: "Team Name",
+                labelText: tr("Team Name"),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -160,7 +177,7 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
             ),
             TextButton(
               onPressed: () => _selectPlayersForTeam(isFirstTeam),
-              child: Text("Select Players"),
+              child: Text(tr("Select Players")),
             ),
           ],
         ),

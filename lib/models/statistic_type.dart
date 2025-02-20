@@ -8,12 +8,12 @@ enum StatisticsType {
 
   String getDisplayName() {
     return switch (this) {
-      StatisticsType.twoPointSuccess => "2P",
-      StatisticsType.twoPointMiss => "missed 2P",
-      StatisticsType.threePointSuccess => "3P",
-      StatisticsType.threePointMiss => "missed 3P",
-      StatisticsType.rebound => "R",
-      StatisticsType.assist => "A",
+      StatisticsType.twoPointSuccess => "2-point",
+      StatisticsType.twoPointMiss => "missed 2-point",
+      StatisticsType.threePointSuccess => "3-point",
+      StatisticsType.threePointMiss => "missed 3-point",
+      StatisticsType.rebound => "rebound_full",
+      StatisticsType.assist => "assist_full",
     };
   }
 }

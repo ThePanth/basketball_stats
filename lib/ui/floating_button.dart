@@ -32,7 +32,7 @@ class FloatingButtonState extends State<FloatingButton> {
     setState(() {
       _floatingButtons[buttonId] = data;
     });
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(milliseconds: 3500), () {
       if (mounted) {
         setState(() {
           _floatingButtons.removeWhere((id, _) => id == buttonId);

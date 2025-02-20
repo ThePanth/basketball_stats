@@ -1,3 +1,4 @@
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:basketball_stats/views/game_history_view.dart';
 import 'package:basketball_stats/views/ongoing_game_view.dart';
 import 'package:basketball_stats/views/players_view.dart';
@@ -13,10 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // List of Views
   final List<Widget> _screens = [
-    OngoingGameView(),  // Current game tracking
-    GameHistoryView(),      // Game history
-    PlayersView(),      // Player management
-    PlayersView(),   // Overall statistics
+    OngoingGameView(), // Current game tracking
+    GameHistoryView(), // Game history
+    PlayersView(), // Player management
+    PlayersView(), // Overall statistics
   ];
 
   void _onTabSelected(int index) {
@@ -28,28 +29,29 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],  // Show the selected view
+      body: _screens[_selectedIndex], // Show the selected view
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onTabSelected,
         selectedItemColor: Colors.orangeAccent, // Highlighted tab color
-        unselectedItemColor: Colors.blueGrey[900],    // Faded color for inactive tabs
+        unselectedItemColor:
+            Colors.blueGrey[900], // Faded color for inactive tabs
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_basketball),
-            label: 'Game',
+            label: tr('Game', context: context),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            label: 'History',
+            label: tr('History', context: context),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Players',
+            label: tr('Players', context: context),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
-            label: 'Stats',
+            label: tr('Stats', context: context),
           ),
         ],
       ),

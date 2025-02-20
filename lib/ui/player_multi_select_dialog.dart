@@ -1,3 +1,4 @@
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../models/player_model.dart';
 
@@ -37,7 +38,7 @@ class _PlayerMultiSelectDialogState extends State<PlayerMultiSelectDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Select Players (4-5)"),
+      title: Text(tr("Select Players:", context: context)),
       content: SingleChildScrollView(
         child: Column(
           children:
@@ -66,20 +67,23 @@ class _PlayerMultiSelectDialogState extends State<PlayerMultiSelectDialog> {
         TextButton(
           onPressed:
               () => Navigator.pop(context, widget.selectedPlayers), // Cancel
-          child: Text("Cancel"),
+          child: Text(tr("Cancel", context: context)),
         ),
         TextButton(
           onPressed: () {
-            if (_tempSelectedPlayers.length >= 4 &&
-                _tempSelectedPlayers.length <= 5) {
+            if (_tempSelectedPlayers.isNotEmpty) {
               Navigator.pop(context, _tempSelectedPlayers);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Please select 4-5 players.")),
+                SnackBar(
+                  content: Text(
+                    tr("Please select at least one player", context: context),
+                  ),
+                ),
               );
             }
           },
-          child: Text("Confirm"),
+          child: Text(tr("Confirm", context: context)),
         ),
       ],
     );

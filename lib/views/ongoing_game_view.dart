@@ -8,6 +8,7 @@ import 'package:basketball_stats/models/statistic_type.dart';
 import 'package:basketball_stats/services/game_service.dart';
 import 'package:basketball_stats/ui/floating_button.dart';
 import 'package:basketball_stats/ui/game_timer.dart';
+import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class OngoingGameView extends StatefulWidget {
@@ -78,7 +79,7 @@ class _OngoingGameViewState extends State<OngoingGameView> {
           ),
           ElevatedButton(
             onPressed: _finishGameConfirm,
-            child: Text("Finish game"),
+            child: Text(tr("Finish game")),
           ),
         ],
       ),
@@ -93,13 +94,13 @@ class _OngoingGameViewState extends State<OngoingGameView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "No ongoing game",
+            tr("No ongoing game"),
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: _createNewGame,
-            child: Text("Create New Game"),
+            child: Text(tr("Create New Game")),
           ),
         ],
       ),
@@ -169,7 +170,7 @@ class _OngoingGameViewState extends State<OngoingGameView> {
                   () => _updateStat(player, StatisticsType.threePointSuccess),
                 ),
                 _buildNonCrossedTextButton(
-                  "A",
+                  tr("assist_short"),
                   _paleYellow,
                   _StatisticButtonType.right,
                   () => _updateStat(player, StatisticsType.assist),
@@ -191,7 +192,7 @@ class _OngoingGameViewState extends State<OngoingGameView> {
                   () => _updateStat(player, StatisticsType.threePointMiss),
                 ),
                 _buildNonCrossedTextButton(
-                  "R",
+                  tr("rebound_short"),
                   _paleBlue,
                   _StatisticButtonType.right,
                   () => _updateStat(player, StatisticsType.rebound),
@@ -202,10 +203,6 @@ class _OngoingGameViewState extends State<OngoingGameView> {
         ),
       ),
     );
-  }
-
-  Widget _buildStatButton(IconData icon, Color color, VoidCallback onPressed) {
-    return IconButton(icon: Icon(icon, color: color), onPressed: onPressed);
   }
 
   Widget _buildCrossedTextButton(
@@ -289,7 +286,10 @@ class _OngoingGameViewState extends State<OngoingGameView> {
     _loadOngoingGame();
     _floatingButtonKey.currentState?.addTemporaryButton(
       FloatingButtonData(
-        text: "Undo ${type.getDisplayName()} from ${player.firstName}",
+        text: tr(
+          "undo_acrion_from",
+          args: [tr(type.getDisplayName()), player.firstName],
+        ),
         action: () => _removeStat(newItem),
       ),
     );
@@ -306,14 +306,14 @@ class _OngoingGameViewState extends State<OngoingGameView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Finish the game'),
+          title: Text(tr('Finish the game?')),
           actions: [
             // Cancel Button
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: Text(tr('Cancel')),
             ),
             // Add Player Button
             ElevatedButton(
@@ -321,7 +321,7 @@ class _OngoingGameViewState extends State<OngoingGameView> {
                 _finishGame();
                 Navigator.pop(context);
               },
-              child: Text('Finish'),
+              child: Text(tr('Finish')),
             ),
           ],
         );
