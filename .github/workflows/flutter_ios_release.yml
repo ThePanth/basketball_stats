@@ -1,0 +1,55 @@
+name: Build and Release iOS App
+
+on:
+  workflow_dispatch:  # Manually triggered workflow
+
+jobs:
+  build_ios:
+    runs-on: macos-latest  # Uses a macOS runner with Xcode pre-installed
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Build iOS App
+        run: flutter build ipa --release
+
+      - name: Generate Build Tag
+        run: echo "BUILD_TAG=v$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-Release
+          path: build/ios/ipa/*.ipa
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.BUILD_TAG }}
+          name: Release ${{ env.BUILD_TAG }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload IPA to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/ios/ipa/*.ipa
+          tag_name: ${{ env.BUILD_TAG }}
+          token: ${{ secrets.GITHUB_TOKEN }}
