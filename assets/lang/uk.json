@@ -48,6 +48,15 @@
   "Team 1": "Команда 1",
   "Team 2": "Команда 2",
   "All teams": "Всі команди",
+  "Total": "Всього",
+  "All Games": "Всі ігри",
+  "Statistics": "Статистика",
+  "Day": "День",
+  "Week": "Тиждень",
+  "Month": "Місяць",
+  "Custom Range": "Довільний інтервал",
+  "From": "З",
+  "To": "По",
 
   "confirm_button_text": "confirm_button_text"
 }

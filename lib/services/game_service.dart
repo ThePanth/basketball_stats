@@ -18,6 +18,14 @@ class GameService {
     return await Future.wait(models.map((m) => _fillGame(m)));
   }
 
+  static Future<List<Game>> getGamesByDate(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    final models = await GameRepository.getGamesByDate(startDate, endDate);
+    return await Future.wait(models.map((m) => _fillGame(m)));
+  }
+
   static Future<List<Game>> getAllGames() async {
     final models = await GameRepository.getAllGames();
     return await Future.wait(models.map((m) => _fillGame(m)));

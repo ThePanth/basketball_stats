@@ -9,9 +9,11 @@ import 'package:basketball_stats/services/game_service.dart';
 import 'package:basketball_stats/ui/floating_button.dart';
 import 'package:basketball_stats/ui/game_timer.dart';
 import 'package:basketball_stats/utils/app_localizations.dart';
+import 'package:basketball_stats/utils/game_notifier.dart';
 import 'package:flutter/material.dart';
 
 class OngoingGameView extends StatefulWidget {
+  const OngoingGameView({Key? key}) : super(key: key);
   @override
   _OngoingGameViewState createState() => _OngoingGameViewState();
 }
@@ -283,6 +285,7 @@ class _OngoingGameViewState extends State<OngoingGameView> {
   void _updateStat(Player player, StatisticsType type) async {
     final newItem = _ongoingGame!.addStatisticItem(player.id, type);
     await GameService.addOrUpdateGame(_ongoingGame!);
+    eventBus.sendChangeEvent(_ongoingGame!.id);
     _loadOngoingGame();
     _floatingButtonKey.currentState?.addTemporaryButton(
       FloatingButtonData(

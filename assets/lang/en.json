@@ -48,6 +48,15 @@
   "Team 1": "Team 1",
   "Team 2": "Team 2",
   "All teams": "All teams",
+  "Total": "Total",
+  "All Games": "All Games",
+  "Statistics": "Statistics",
+  "Day": "Day",
+  "Week": "Week",
+  "Month": "Month",
+  "Custom Range": "Custom Range",
+  "From": "From",
+  "To": "To",
 
 
   "confirm_button_text": "confirm_button_text"

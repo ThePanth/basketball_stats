@@ -6,6 +6,7 @@ import 'package:basketball_stats/repositories/player_repository.dart';
 import 'package:basketball_stats/repositories/team_repository.dart';
 import 'package:basketball_stats/ui/player_multi_select_dialog.dart';
 import 'package:basketball_stats/utils/app_localizations.dart';
+import 'package:basketball_stats/utils/game_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -111,6 +112,8 @@ class _CreateNewGameScreenState extends State<CreateNewGameScreen> {
     );
 
     await GameRepository.addOrUpdateGame(game);
+
+    eventBus.sendCreateEvent(game.id);
 
     Navigator.pop(context); // Go back after creating game
   }

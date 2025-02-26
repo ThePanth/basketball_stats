@@ -8,11 +8,12 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:uuid/uuid.dart';
 
 class PlayersView extends StatefulWidget {
+  const PlayersView({Key? key}) : super(key: key);
   @override
   _PlayersViewState createState() => _PlayersViewState();
 }
 
-class _PlayersViewState extends State<PlayersView> {
+class _PlayersViewState extends State<PlayersView> with WidgetsBindingObserver {
   List<PlayerModel> _players = [];
   Color _selectedColor = Colors.white; // Default color
   final TextEditingController _firstNameEditingController =
@@ -23,7 +24,21 @@ class _PlayersViewState extends State<PlayersView> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadPlayers();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      setState(() {});
+    }
   }
 
   _loadPlayers() async {

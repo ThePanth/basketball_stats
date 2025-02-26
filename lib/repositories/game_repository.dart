@@ -42,6 +42,21 @@ class GameRepository {
       ..sort((g1, g2) => g1.startTime.compareTo(g2.startTime));
   }
 
+  static Future<List<GameModel>> getGamesByDate(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    final gameBox = await _getGameBox();
+    return gameBox.values
+        .where(
+          (g) =>
+              g.startTime.compareTo(endDate) <= 0 &&
+              (g.endTime == null || g.endTime!.compareTo(startDate) >= 0),
+        )
+        .toList()
+      ..sort((g1, g2) => g1.startTime.compareTo(g2.startTime));
+  }
+
   static Future<GameModel> getGame(String id) async {
     return (await getGames([id])).first;
   }

@@ -2,6 +2,7 @@ import 'package:basketball_stats/utils/app_localizations.dart';
 import 'package:basketball_stats/views/game_history_view.dart';
 import 'package:basketball_stats/views/ongoing_game_view.dart';
 import 'package:basketball_stats/views/players_view.dart';
+import 'package:basketball_stats/views/statistics_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,10 +15,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // List of Views
   final List<Widget> _screens = [
-    OngoingGameView(), // Current game tracking
-    GameHistoryView(), // Game history
-    PlayersView(), // Player management
-    PlayersView(), // Overall statistics
+    OngoingGameView(
+      key: PageStorageKey('OngoingGameView'),
+    ), // Current game tracking
+    GameHistoryView(key: PageStorageKey('GameHistoryView')), // Game history
+    PlayersView(key: PageStorageKey('PlayersView')), // Player management
+    StatisticsView(key: PageStorageKey('StatisticsView')), // Overall statistics
   ];
 
   void _onTabSelected(int index) {
@@ -26,10 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final PageStorageBucket bucket = PageStorageBucket();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex], // Show the selected view
+      body: PageStorage(
+        bucket: bucket,
+        child: IndexedStack(index: _selectedIndex, children: _screens),
+      ), // Show the selected view
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onTabSelected,
